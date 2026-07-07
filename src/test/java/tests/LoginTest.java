@@ -3,6 +3,7 @@ package tests;
 import base.BaseTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.DashboardPage;
 import pages.LoginPage;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +40,16 @@ public class LoginTest extends BaseTest {
     @Test
     public void loginWithEmptyCredentials(){
         loginPage.login("","");
-        assertThat(loginPage.getRequiredMessage().contains("Required"));
+        assertThat(loginPage.getRequiredMessagesCount()).isEqualTo(2);
+        assertThat(loginPage.getRequiredMessage()).allMatch(msg->msg.contains("Required"));
     }
+    @Test
+    public void navigateToPim() {
+    loginPage.login("Admin","admin123" );
+    loginPage.waitForDashboard();
 
+    DashboardPage dashboardPage=new DashboardPage(driver);
+    dashboardPage.goToPim();
+    assertThat(driver.getCurrentUrl()).contains("pim");
+    }
 }

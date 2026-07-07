@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+.allure/
+LEARNING_LOG.md
+allure-results/
+log.txt

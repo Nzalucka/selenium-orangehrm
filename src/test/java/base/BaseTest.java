@@ -11,6 +11,7 @@ import java.time.Duration;
 
 public class BaseTest {
     protected WebDriver driver;
+    protected static final String BASE_URL = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 
     @BeforeMethod
     public  void setUp(){
@@ -23,7 +24,7 @@ public class BaseTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.get(BASE_URL);
 
     }
     @AfterMethod
