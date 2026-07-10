@@ -25,6 +25,15 @@ public class EmployeeListPage {
     @FindBy(css = ".oxd-table-body .oxd-table-row")
     private List<WebElement> resultRows;
 
+    @FindBy(css = "span.oxd-checkbox-input")
+    private List<WebElement> checkboxes;
+    @FindBy(xpath = "//button[contains(.,'Delete Selected')]")
+    private WebElement deleteSelectedButton;
+
+    @FindBy(xpath = "//button[contains(.,'Yes, Delete')]")
+    private WebElement confirmDeleteButton;
+
+
     private final By resultRowLocator = By.cssSelector(".oxd-table-body .oxd-table-row");
 
     public EmployeeListPage(WebDriver driver) {
@@ -46,6 +55,16 @@ public class EmployeeListPage {
     public PersonalDetailsPage openFirstResult() {
         resultRows.get(0).click();
         return new PersonalDetailsPage(driver);
+    }
+
+    public void selectFirstRowCheckbox(){
+        checkboxes.get(0).click();
+
+    }
+    public void deleteFirstRowEmployee(){
+        selectFirstRowCheckbox();
+        deleteSelectedButton.click();
+        confirmDeleteButton.click();
     }
 }
 

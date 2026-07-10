@@ -3,10 +3,7 @@ package tests;
 import base.BaseTest;
 import static org.assertj.core.api.Assertions.assertThat;import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
-import pages.EmployeeListPage;
-import pages.LoginPage;
-import pages.PersonalDetailsPage;
+import pages.*;
 
 public class EmployeeListTest extends BaseTest {
     private EmployeeListPage employeeListPage;
@@ -30,5 +27,19 @@ public class EmployeeListTest extends BaseTest {
        employeeListPage.searchByName("Amelia");
         PersonalDetailsPage personalDetailsPage= employeeListPage.openFirstResult();
         assertThat(driver.getCurrentUrl()).contains("viewPersonalDetails");
+    }
+    @Test
+    public void AddEmployee(){
+        AddEmployeePage addEmployeePage=new AddEmployeePage(driver);
+        addEmployeePage.clickAddEmployee();
+        addEmployeePage.fillEmployeeName("Natali", "Testing");
+        addEmployeePage.save();
+        assertThat(addEmployeePage.isRedirectedToPersonalDetails()).isTrue();
+    }
+    @Test
+    public void testDeleteEmployee(){
+       employeeListPage.searchByName("Natalia Testowa");
+       employeeListPage.deleteFirstRowEmployee();
+       assertThat(employeeListPage.getResultsCount()).isEqualTo(0);
     }
 }
