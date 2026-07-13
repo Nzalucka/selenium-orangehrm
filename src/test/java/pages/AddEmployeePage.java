@@ -48,4 +48,5 @@ public class AddEmployeePage {
     public boolean isRedirectedToPersonalDetails() {
         return wait.until(ExpectedConditions.urlContains("viewPersonalDetails"));
     }
+
 }

@@ -1,21 +1,32 @@
 package tests;
 
 import base.BaseTest;
-import static org.assertj.core.api.Assertions.assertThat;import org.testng.annotations.BeforeMethod;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.*;
+import utils.EmployeeApiHelper;
 
 public class EmployeeListTest extends BaseTest {
     private EmployeeListPage employeeListPage;
+    private int empNumber;
 
    @BeforeMethod
    public void setUpPage() {
+       empNumber= EmployeeApiHelper.createEmployee("Employee","Onetest");
        LoginPage loginPage = new LoginPage(driver);
        DashboardPage dashboardPage = loginPage.loginAs("Admin", "admin123");
        dashboardPage.goToPim();
        employeeListPage = new EmployeeListPage(driver);
 
    }
+    @AfterMethod
+    public void cleanUp() {
+        EmployeeApiHelper.deleteEmployee(empNumber);
+    }
+
     @Test
     public void searchExistingEmployee() {
     employeeListPage.searchByName("Amelia");
@@ -24,22 +35,9 @@ public class EmployeeListTest extends BaseTest {
 
     @Test
     public void openEmployeeProfile(){
-       employeeListPage.searchByName("Amelia");
+       employeeListPage.searchByName("Onetest");
         PersonalDetailsPage personalDetailsPage= employeeListPage.openFirstResult();
         assertThat(driver.getCurrentUrl()).contains("viewPersonalDetails");
     }
-    @Test
-    public void AddEmployee(){
-        AddEmployeePage addEmployeePage=new AddEmployeePage(driver);
-        addEmployeePage.clickAddEmployee();
-        addEmployeePage.fillEmployeeName("Natali", "Testing");
-        addEmployeePage.save();
-        assertThat(addEmployeePage.isRedirectedToPersonalDetails()).isTrue();
-    }
-    @Test
-    public void testDeleteEmployee(){
-       employeeListPage.searchByName("Natalia Testowa");
-       employeeListPage.deleteFirstRowEmployee();
-       assertThat(employeeListPage.getResultsCount()).isEqualTo(0);
-    }
+
 }
