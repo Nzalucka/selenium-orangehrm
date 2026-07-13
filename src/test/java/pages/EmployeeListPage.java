@@ -43,9 +43,14 @@ public class EmployeeListPage {
 }
     @Step("Search employee by name: {name}")
     public EmployeeListPage searchByName(String name){
+
+        wait.until(ExpectedConditions.visibilityOf(employeeNameInput));
+
+
         employeeNameInput.clear();
         employeeNameInput.sendKeys(name);
         searchButton.click();
+        wait.until(ExpectedConditions.urlContains("pim"));
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(resultRowLocator, 0));
         return this;
 }

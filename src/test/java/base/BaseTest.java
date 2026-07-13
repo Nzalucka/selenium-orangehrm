@@ -22,8 +22,6 @@ public class BaseTest {
         driver=new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
         driver.get(BASE_URL);
 
     }
