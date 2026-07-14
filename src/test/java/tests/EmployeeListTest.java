@@ -29,7 +29,7 @@ public class EmployeeListTest extends BaseTest {
 
     @Test
     public void searchExistingEmployee() {
-    employeeListPage.searchByName("Amelia");
+    employeeListPage.searchByName("Onetest");
     assertThat(employeeListPage.getResultsCount()).isGreaterThan(0);
     }
 
@@ -39,5 +39,10 @@ public class EmployeeListTest extends BaseTest {
         PersonalDetailsPage personalDetailsPage= employeeListPage.openFirstResult();
         assertThat(driver.getCurrentUrl()).contains("viewPersonalDetails");
     }
+    @Test
+    public void searchNonExistingEmployee() {
 
+       employeeListPage.searchByNameNoResults("ffff");
+       assertThat(employeeListPage.isNoRecordsFound()).isTrue();
+    }
 }

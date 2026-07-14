@@ -54,6 +54,22 @@ public class EmployeeListPage {
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(resultRowLocator, 0));
         return this;
 }
+    @Step("Search employee by name with no results: {name}")
+    public EmployeeListPage searchByNameNoResults(String name) {
+        wait.until(ExpectedConditions.visibilityOf(employeeNameInput));
+        employeeNameInput.clear();
+        employeeNameInput.sendKeys(name);
+        searchButton.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//span[text()='No Records Found']")));
+        return this;
+    }
+    public boolean isNoRecordsFound() {
+        return driver.findElement(
+                        By.xpath("//span[text()='No Records Found']"))
+                .isDisplayed();
+    }
     public int getResultsCount() {
        return resultRows.size();
     }
