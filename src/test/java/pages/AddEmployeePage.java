@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,11 +26,20 @@ public class AddEmployeePage {
     @FindBy(css = "button[type='submit']")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//span[text()='Required']")
+    private WebElement requiredError;
+
     public AddEmployeePage(WebDriver driver) {
         this.driver = driver;
         this.wait=new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver,this);
     }
+
+    public String getRequiredError() {
+        wait.until(ExpectedConditions.visibilityOf(requiredError));
+        return requiredError.getText();
+    }
+
     public void clickAddEmployee() {
         wait.until(ExpectedConditions.elementToBeClickable(addEmployeeButton));
         addEmployeeButton.click();
@@ -42,11 +52,13 @@ public class AddEmployeePage {
         lastNameField.clear();
         lastNameField.sendKeys(lastName);
     }
-    public void save() {
-        saveButton.click();
-    }
     public boolean isRedirectedToPersonalDetails() {
         return wait.until(ExpectedConditions.urlContains("viewPersonalDetails"));
     }
-
+    public void save() {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.cssSelector(".oxd-form-loader")));
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+        saveButton.click();
+    }
 }

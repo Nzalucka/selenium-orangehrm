@@ -44,6 +44,12 @@ public class AddEmployeeTest extends BaseTest {
         assertThat(employeeListPage.getResultsCount()).isEqualTo(0);
 empNumber=0;
     }
-
+    @Test
+    public void addEmployeeWithoutLastName() {
+        addEmployeePage.clickAddEmployee();
+        addEmployeePage.fillEmployeeName("TestOnly", "");
+        addEmployeePage.save();
+        assertThat(addEmployeePage.getRequiredError()).contains("Required");
+    }
 
     }

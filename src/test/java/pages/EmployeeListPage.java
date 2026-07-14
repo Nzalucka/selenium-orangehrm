@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeeListPage {
     private final WebDriver driver;
@@ -32,6 +33,9 @@ public class EmployeeListPage {
 
     @FindBy(xpath = "//button[contains(.,'Yes, Delete')]")
     private WebElement confirmDeleteButton;
+
+    @FindBy(css = ".oxd-table-header-cell")
+    private List<WebElement> tableHeaders;
 
 
     private final By resultRowLocator = By.cssSelector(".oxd-table-body .oxd-table-row");
@@ -86,6 +90,18 @@ public class EmployeeListPage {
         selectFirstRowCheckbox();
         deleteSelectedButton.click();
         confirmDeleteButton.click();
+    }
+    @Step("Search all employees")
+    public EmployeeListPage searchAll() {
+        wait.until(ExpectedConditions.elementToBeClickable(searchButton));
+        searchButton.click();
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(resultRowLocator, 0));
+        return this;
+    }
+    public List<String>getTableHeaders(){
+        wait.until(ExpectedConditions.visibilityOfAllElements(tableHeaders));
+        return tableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
+
     }
 }
 

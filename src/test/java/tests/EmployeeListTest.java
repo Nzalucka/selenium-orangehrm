@@ -45,4 +45,10 @@ public class EmployeeListTest extends BaseTest {
        employeeListPage.searchByNameNoResults("ffff");
        assertThat(employeeListPage.isNoRecordsFound()).isTrue();
     }
+    @Test
+    public void verifyTableHeaders() {
+        employeeListPage.searchAll();
+        assertThat(employeeListPage.getTableHeaders())
+                .contains("First (& Middle) Name", "Last Name", "Id", "Actions");
+    }
 }
